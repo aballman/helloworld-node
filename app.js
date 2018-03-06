@@ -1,8 +1,23 @@
-var express = require('express');
-var app = express();
-app.get('/', function (req, res) {
-  res.send('Hello World!');
-});
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
-});
+var express 	= require('express');
+var app 		= express();
+var bodyParser 	= require('body-parser');
+
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json());
+
+var port 	= process.env.PORT || 3000;
+
+var router 	= express.Router()
+
+router.get('/healthcheck', function(req, res){
+	res.json({"status": "OK"});
+})
+
+router.get('/', function(req, res){
+	res.json({"message": "Hello World"});
+})
+
+app.use('/', router);
+
+app.listen(port);
+console.log("Now listening on port " + port);
