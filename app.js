@@ -3,6 +3,7 @@ var app 		= express();
 var bodyParser 	= require('body-parser');
 
 var healthcheckRoutes = require('./healthcheck/healthcheck.routes')
+var helloworldRoutes  = require('./helloworld/helloworld.routes')
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json());
@@ -10,10 +11,13 @@ app.use(bodyParser.json());
 var port 	= process.env.PORT || 3000;
 var router 	= express.Router()
 
-healthcheckRoutes(router);
+var routes = [
+	healthcheckRoutes,
+	helloworldRoutes
+]
 
-router.get('/', function(req, res){
-	res.json({"message": "Hello World"});
+routes.forEach( function(route){
+	route(router);
 })
 
 app.use('/', router);
