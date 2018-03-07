@@ -1,4 +1,3 @@
-var express 	= require('express');
 var healthcheck = require('./healthcheck');
 
 module.exports = function(router){
